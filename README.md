@@ -1,11 +1,11 @@
 # DeviceRandomizer.py
-It generates a total of 22 states for a Device. It resemblances the actual BEMOSS Cassandra database structure. It appends to a JSON file so we can use firebase to access it from anywhere.
+It generates a total of 22 states for a Device. It resemblances the actual BEMOSS Cassandra database structure. It appends to an existing JSON file so we can use Firebase to access it from anywhere and expand the database we already have. After the script is done, you must import the resulting JSON file to Firebase manually.
 
 ## Usage:
 ```
     python3 DeviceRandomizer.py
 ```
-NOTE: JSON file must be accessible. Preferably in the same folder as <code>DeviceRandomizer.py</code>
+<u><b>NOTE:</b></u> JSON file must be accessible. Preferably in the same folder as <code>DeviceRandomizer.py</code>
 
 After running the script just follow the instructions.
 Example:
