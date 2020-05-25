@@ -22,3 +22,49 @@ Example:
 
     Enter the number of times the device has been turned off (e.g. 2): 3
 ```
+
+# modifyIP.py
+This script eliminates a setup step that needs user to manipulate sensitive data. Normally in order to run BEMOSS smoothly PostgreSQL needs to be configured properly. BEMOSS does not handle IP configuration of PostgreSQL and needs the user enter it manually everytime the local ip changes. That results in a complicated and unneccesarry work for the user. To eliminate that work, I wrote this script. This script automatically changes those IP address fields, if neccesarry. If you follow the steps below, this can be done automatically everytime BEMOSS launches.
+
+## Usage:
+- To implement this script to every-day usage, this script needs to be in ~/BEMOSS3.5/GUI folder
+- Add the line <code>sudo python3 modifyIP.py</code> to ~/BEMOSS3.5/GUI/startBEMOSS_GUI.sh
+    - It has to be run as root(sudo) because the files that need to be changed are for root-access only.
+    - Make sure to add this line just before <code>python GUI.py</code> so it should look like this:
+
+    ```bash
+        #!/bin/sh
+
+        #Get project path
+        mypath=$(readlink -f "$0")
+        echo $mypath
+        guipath=$(dirname "$mypath")
+        echo $guipath
+        projectpath=$(dirname "$guipath")
+
+        NET_Installed=$(dpkg-query -W --showformat='${Status}\n' python-netifaces|grep "install ok      installed")
+        echo $NET_Installed
+
+        if [ "$NET_Installed" = "install ok installed" ]; then
+        	echo "Package Installed"
+        else
+        	echo "Installing Package..."
+        	sudo apt-get install python-netifaces --assume-yes
+        fi
+        TK_Installed=$(dpkg-query -W --showformat='${Status}\n' python-imaging-tk|grep "install ok      installed")
+        echo $TK_Installed
+
+        if [ "$TK_Installed" = "install ok installed" ]; then
+        	echo "Package Installed"
+        else
+        	echo "Installing Package..."
+        	sudo apt-get install python-imaging-tk --assume-yes
+        	# Tested on Odroid, this board looks like need the package below.
+        	sudo apt-get install python-imaging --assume-yes
+        fi
+
+        #run GUI in virtual environment
+        cd $guipath
+        sudo python3 modifyIP.py
+        python GUI.py
+    ```
