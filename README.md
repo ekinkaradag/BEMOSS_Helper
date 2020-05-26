@@ -1,26 +1,30 @@
 # DeviceRandomizer.py
-It generates a total of 22 states for a Device. It resemblances the actual BEMOSS Cassandra database structure. It appends to an existing JSON file so we can use Firebase to access it from anywhere and expand the database we already have. After the script is done, you must import the resulting JSON file to Firebase manually.
+It generates any number of states for a Device. It resemblances the actual BEMOSS Cassandra database structure. It can be then transferred to Firebase to access it from anywhere and expand the database we already have. After the script is done, you must import the resulting JSON file to Firebase manually.
+
+<u><b>NOTE:</b></u> Make sure to import it in a Device subfolder, not the root directory! If there is not one for the device you want to import, create one.
 
 ## Usage:
 ```
     python3 DeviceRandomizer.py
 ```
-<u><b>NOTE:</b></u> JSON file must be accessible. Preferably in the same folder as <code>DeviceRandomizer.py</code>
+
 
 After running the script just follow the instructions.
+
 Example:
 ```
-    Enter the json file's name: bemoss.json
 
-    Enter a device name (e.g. Device13): Device2
+!!!CAUTION!!!
+The script will write to bemoss-device.json file on this folder. If you already have bemoss-device.json file make sure to back it up, because it will overwrite!
 
-    Enter a agent_id (e.g. Sock_2212): Sock_3333
-
-    Enter a username (e.g. backupsave): admin
-
-    Enter the maximum amount of power the device can draw in Watts (e.g. 60): 60
-
-    Enter the number of times the device has been turned off (e.g. 2): 3
+Enter the agent_id (e.g. Sock_2212): Sock_3333
+Enter the username (e.g. backupsave): admin
+Enter the maximum amount of power the device can draw in Watts (e.g. 60): 200
+Enter the start date in YYYY-MM-DD format (e.g. 2020-01-01): 2020-01-01
+Enter the end date in YYYY-MM-DD format (e.g. 2020-02-25): 2020-02-23
+Enter the number of state records this device should have (e.g. 20): 63
+Enter the number of times the device has been turned off (e.g. 2): 4
+WRITE SUCCESSFUL!
 ```
 
 # modifyIP.py

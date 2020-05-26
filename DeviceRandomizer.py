@@ -1,8 +1,14 @@
 import json
 import sys
 import random
+import time
 
-numberOfStates = 22
+def random_date(start, end, const):
+    stime = time.mktime(time.strptime(start, '%Y-%m-%d %H:%M'))
+    etime = time.mktime(time.strptime(end, '%Y-%m-%d %H:%M'))
+
+    ptime = stime + const * (etime - stime)
+    return time.strftime('%Y-%m-%d %H:%M', time.localtime(ptime))
 
 def randomPower(watt, newOff, numberOfStates):
     states = []
@@ -15,49 +21,56 @@ def randomPower(watt, newOff, numberOfStates):
     random.shuffle(states)
     return states
 
+
 #(randomPower(100,2,numberOfStates))
 def main():
-    try:
-        jsonfile= str(input("Enter the json file's name: "))
-        with open(jsonfile) as f:
-            data = json.load(f)
-    except:
-        print(jsonfile, " file couldn't be found")
-        return
+    print("\n!!!CAUTION!!!")
+    print("The script will write to bemoss-device.json file on this folder. If you already have bemoss-device.json file make sure to back it up, because it will overwrite!\n")
 
     # print(data['Device1'][0]['date_id'])
 
-    newDevice = str(input('Enter a device name (e.g. Device13): '))
-    newAgentID = str(input('Enter a agent_id (e.g. Sock_2212): '))
-    newUser = str(input('Enter a username (e.g. backupsave): '))
+    newAgentID = str(input('Enter the agent_id (e.g. Sock_2212): '))
+    newUser = str(input('Enter the username (e.g. backupsave): '))
     newPower = int(input('Enter the maximum amount of power the device can draw in Watts (e.g. 60): '))
+    startDate = str(input('Enter the start date in YYYY-MM-DD format (e.g. 2020-01-01): '))
+    endDate = str(input('Enter the end date in YYYY-MM-DD format (e.g. 2020-02-25): '))
+    numberOfStates = int(input('Enter the number of state records this device should have (e.g. 20): '))
     newOff = int(input('Enter the number of times the device has been turned off (e.g. 2): '))
     powerStates = randomPower(newPower, newOff, numberOfStates)
-    newDict = {newDevice : []}
-
+    newList = []
+    
+    dateList= []
+    # Generate random dates and sort them after the loop
     for i in range(numberOfStates):
+        a = random_date(startDate + " 00:00", endDate + " 23:59", random.random())
+        dateList.append(a)
+    dateList.sort()
+    
+    for i in range(numberOfStates):
+        time = dateList[i] + ":00.000Z"
         if powerStates[i] != 0:
             stateDict = {'agent_id':newAgentID,
-                         'date_id':data['Device1'][i]['date_id'],
+                         'date_id':dateList[i][:10],
                          'power':powerStates[i],
                          'status': 'ON',
-                         'time':data['Device1'][i]['time'],
+                         'time':time,
                          'user':newUser }
         else:
             stateDict = {'agent_id':newAgentID,
-                         'date_id':data['Device1'][i]['date_id'],
+                         'date_id':dateList[i][:10],
                          'power':0,
                          'status': 'OFF',
-                         'time':data['Device1'][i]['time'],
+                         'time':time,
                          'user':newUser }
         
         # Append to older JSON
-        newDict[newDevice].append(stateDict)
-        data.update(newDict)
+        newList.append(stateDict)
 
     # Write to file
-    with open('bemoss.json', 'w') as json_file:
-        json.dump(data, json_file, indent = 4, sort_keys=True)
+    with open('bemoss-device.json', 'w') as json_file:
+        json.dump(newList, json_file, indent = 4)
+
+    print("WRITE SUCCESSFUL!")
 
 if __name__ == "__main__":
     main()
