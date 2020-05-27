@@ -33,7 +33,7 @@ This script eliminates a setup step that needs user to manipulate sensitive data
 ## Usage:
 - To implement this script to every-day usage, this script needs to be in ~/BEMOSS3.5/GUI folder
 - Add the line <code>sudo python3 modifyIP.py</code> to ~/BEMOSS3.5/GUI/startBEMOSS_GUI.sh
-    - It has to be run as root(sudo) because the files that need to be changed are for root-access only.
+    - You must run it as root(sudo) because the files that need to be changed are for root-access only.
     - Make sure to add this line just before <code>python GUI.py</code> so it should look like this:
 
     ```bash
