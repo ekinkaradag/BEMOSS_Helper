@@ -1,7 +1,7 @@
 # DeviceRandomizer.py
 It generates any number of states for a Device. It resemblances the actual BEMOSS Cassandra database structure. It can be then transferred to Firebase to access it from anywhere and expand the database we already have. After the script is done, you must import the resulting JSON file to Firebase manually.
 
-<u><b>NOTE:</b></u> Make sure to import it in a Device subfolder, not the root directory! If there is not one for the device you want to import, create one.
+<u><b>NOTE:</b></u> When importing to Google Firebase, make sure to import it in a Device subfolder, not the root directory! If there is not one for the device you want to import, create one.
 
 ## Usage:
 ```
