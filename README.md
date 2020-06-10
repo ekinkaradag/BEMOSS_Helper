@@ -31,10 +31,16 @@ WRITE SUCCESSFUL!
 This script eliminates a setup step that needs user to manipulate sensitive data. Normally in order to run BEMOSS smoothly PostgreSQL needs to be configured properly. BEMOSS does not handle IP configuration of PostgreSQL and needs the user enter it manually everytime the local ip changes. That results in a complicated and unneccesarry work for the user. To eliminate that work, I wrote this script. This script automatically changes those IP address fields, if neccesarry. If you follow the steps below, this can be done automatically everytime BEMOSS launches.
 
 ## Usage:
-- To implement this script to every-day usage, this script needs to be in ~/BEMOSS3.5/GUI folder
-- Add the line <code>sudo python3 modifyIP.py</code> to ~/BEMOSS3.5/GUI/startBEMOSS_GUI.sh
+- To implement this script to every-day usage, this script needs to be in ~/BEMOSS3.5/  folder
+- Add the these following lines just above the comment <code>#run GUI in virtual environment</code> in ~/BEMOSS3.5/GUI/startBEMOSS_GUI.sh
+
+    ```bash
+    cd ..
+    sudo python3 modifyIP.py
+    ```
+
     - You must run it as root(sudo) because the files that need to be changed are for root-access only.
-    - Make sure to add this line just before <code>python GUI.py</code> so it should look like this:
+    - Make sure to add this line just before <code>#run GUI in virtual environment</code> so it should look like this:
 
     ```bash
         #!/bin/sh
@@ -67,8 +73,10 @@ This script eliminates a setup step that needs user to manipulate sensitive data
         	sudo apt-get install python-imaging --assume-yes
         fi
 
+        cd ..
+        sudo python3 modifyIP.py
+
         #run GUI in virtual environment
         cd $guipath
-        sudo python3 modifyIP.py
         python GUI.py
     ```
