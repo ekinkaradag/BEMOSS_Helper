@@ -85,4 +85,5 @@ This script eliminates a setup step that needs user to manipulate sensitive data
 If you want to use BEMOSS in such a way that modifyIP.py is already integrated, you can install my modified BEMOSS.
 
 My modified BEMOSS: https://github.com/ekinkaradag/BEMOSS3.5
+
 BEMOSS Installation Guide: https://github.com/bemoss/BEMOSS3.5/wiki/BEMOSS-Installation-Guide
